@@ -1,5 +1,6 @@
 package tech.zeta.application.repositories;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.models.Client;
 import tech.zeta.application.utils.DBUtils;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class ClientRepository {
 
     // Insert new client
@@ -33,7 +35,7 @@ public class ClientRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientRepository save() {}",e.getMessage());
         }
     }
 
@@ -52,7 +54,7 @@ public class ClientRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientRepository findById() {}",e.getMessage());
         }
         return Optional.empty();
     }
@@ -71,7 +73,7 @@ public class ClientRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientRepository findAll() {}",e.getMessage());
         }
         return clients;
     }
@@ -93,7 +95,7 @@ public class ClientRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientRepository update() {}",e.getMessage());
         }
     }
 
@@ -108,7 +110,7 @@ public class ClientRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientRepository delete() {}",e.getMessage());
         }
     }
 

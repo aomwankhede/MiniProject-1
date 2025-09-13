@@ -1,5 +1,6 @@
 package tech.zeta.application.repositories;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.enums.PaymentDirection;
 import tech.zeta.application.enums.PaymentStatus;
 import tech.zeta.application.models.SalaryPayment;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class SalaryPaymentRepository {
 
     // Save new salary payment
@@ -37,7 +39,7 @@ public class SalaryPaymentRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in SalaryPaymentRepository save() {}",e.getMessage());
         }
     }
 
@@ -57,7 +59,7 @@ public class SalaryPaymentRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in SalaryPaymentRepository findById() {}",e.getMessage());
         }
         return Optional.empty();
     }
@@ -76,7 +78,7 @@ public class SalaryPaymentRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in SalaryPaymentRepository findAll() {}",e.getMessage());
         }
         return payments;
     }
@@ -100,7 +102,7 @@ public class SalaryPaymentRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in SalaryPaymentRepository update() {}",e.getMessage());
         }
     }
 
@@ -115,7 +117,7 @@ public class SalaryPaymentRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in SalaryPaymentRepository delete() {}",e.getMessage());
         }
     }
 

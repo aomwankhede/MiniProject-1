@@ -1,5 +1,6 @@
 package tech.zeta.application.repositories;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.enums.Action;
 import tech.zeta.application.enums.Entity;
 import tech.zeta.application.models.Role;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class RoleRepository {
 
     // Save role + permissions
@@ -35,7 +37,7 @@ public class RoleRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in RoleRepository save() {}",e.getMessage());
         }
     }
 
@@ -60,7 +62,7 @@ public class RoleRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in RoleRepository findById() {}",e.getMessage());
         }
         return Optional.empty();
     }
@@ -86,7 +88,7 @@ public class RoleRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in RoleRepository findAll() {}",e.getMessage());
         }
         return roles;
     }
@@ -110,7 +112,7 @@ public class RoleRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in RoleRepository update() {}",e.getMessage());
         }
     }
 
@@ -125,7 +127,7 @@ public class RoleRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in RoleRepository delete() {}",e.getMessage());
         }
     }
 

@@ -1,5 +1,6 @@
 package tech.zeta.application.frontend;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.enums.PaymentStatus;
 import tech.zeta.application.models.*;
 import tech.zeta.application.services.ReportGenerationService;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Slf4j
 public class ReportGenerationInterface {
     private final ReportGenerationService reportService = ReportGenerationService.getInstance();
     private final Scanner sc = new Scanner(System.in);
@@ -56,7 +58,6 @@ public class ReportGenerationInterface {
                     .append(", Email: ").append(u.getEmail())
                     .append("\n");
         }
-
         writeToFile("src/main/reports/UserReport_" + role + ".txt", report.toString());
     }
 
@@ -193,9 +194,9 @@ public class ReportGenerationInterface {
     private void writeToFile(String fileName, String content) {
         try (FileWriter writer = new FileWriter(fileName)) {
             writer.write(content);
-            System.out.println("✅ Report saved as: " + fileName);
+            log.info("Report saved as: {} ",fileName);
         } catch (IOException e) {
-            System.out.println("❌ Error writing file: " + e.getMessage());
+            log.info("Error writing file: {}",e.getMessage());
         }
     }
 }

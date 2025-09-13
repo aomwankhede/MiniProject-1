@@ -1,8 +1,6 @@
 package tech.zeta.application.services;
 
 import lombok.extern.slf4j.Slf4j;
-import tech.zeta.application.repositories.RoleRepository;
-import tech.zeta.application.repositories.UserRepository;
 
 @Slf4j
 public class AuditLogService {

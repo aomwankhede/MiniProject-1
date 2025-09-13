@@ -1,5 +1,6 @@
 package tech.zeta.application.frontend;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.models.Permission;
 import tech.zeta.application.enums.Action;
 import tech.zeta.application.enums.Entity;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+@Slf4j
 public class PermissionEntityInterface implements FrontendInterface {
     private final Scanner sc = new Scanner(System.in);
     private final PermissionRepository permissionRepository = new PermissionRepository();
@@ -56,7 +58,7 @@ public class PermissionEntityInterface implements FrontendInterface {
 
     private void createPermission() throws SQLException {
         if (!authService.hasPermission(Action.C, Entity.PERMISSION)) {
-            System.out.println("❌ Not authorized to create permissions!");
+            log.info("Not authorized to create permissions!");
             return;
         }
         System.out.print("Enter Action (C/R/U/D): ");
@@ -66,23 +68,23 @@ public class PermissionEntityInterface implements FrontendInterface {
 
         Permission perm = new Permission(null, Entity.valueOf(target),Action.valueOf(act));
         permissionRepository.save(perm);
-        System.out.println("✅ Permission created!");
+        log.info("Permission created!");
     }
 
     private void viewPermission() throws SQLException {
         if (!authService.hasPermission(Action.R, Entity.PERMISSION)) {
-            System.out.println("❌ Not authorized to read permissions!");
+            log.info("Not authorized to read permissions!");
             return;
         }
         System.out.print("Enter permission ID: ");
         Long id = sc.nextLong(); sc.nextLine();
         Optional<Permission> p = permissionRepository.findById(id);
-        p.ifPresentOrElse(System.out::println, () -> System.out.println("Permission not found."));
+        p.ifPresentOrElse(System.out::println, () -> log.info("Permission not found."));
     }
 
     private void listPermissions() throws SQLException {
         if (!authService.hasPermission(Action.R, Entity.PERMISSION)) {
-            System.out.println("❌ Not authorized to list permissions!");
+            log.info("Not authorized to list permissions!");
             return;
         }
         List<Permission> perms = permissionRepository.findAll();
@@ -91,12 +93,12 @@ public class PermissionEntityInterface implements FrontendInterface {
 
     private void deletePermission() throws SQLException {
         if (!authService.hasPermission(Action.D, Entity.PERMISSION)) {
-            System.out.println("❌ Not authorized to delete permissions!");
+            log.info("Not authorized to delete permissions!");
             return;
         }
         System.out.print("Enter permission ID: ");
         Long id = sc.nextLong(); sc.nextLine();
         permissionRepository.delete(id);
-        System.out.println("✅ Permission deleted!");
+        log.info("Permission deleted!");
     }
 }

@@ -1,5 +1,6 @@
 package tech.zeta.application.frontend;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.enums.Action;
 import tech.zeta.application.enums.Entity;
 import tech.zeta.application.models.User;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+
+@Slf4j
 public class UserEntityInterface implements FrontendInterface {
 
     private final Scanner sc;
@@ -26,7 +29,7 @@ public class UserEntityInterface implements FrontendInterface {
     @Override
     public void display() {
         if (!authService.isAuthenticated()) {
-            System.out.println("❌ Please login first to manage users.");
+            log.info("Please login first to manage users.");
             return;
         }
 
@@ -61,7 +64,7 @@ public class UserEntityInterface implements FrontendInterface {
 
     private void createUser() {
         if (!authService.hasPermission(Action.C, Entity.USER)) {
-            System.out.println("❌ You don't have permission to create users.");
+            log.info("You don't have permission to create users.");
             return;
         }
 
@@ -76,7 +79,6 @@ public class UserEntityInterface implements FrontendInterface {
             String email = sc.nextLine();
 
             System.out.print("Enter roleId: ");
-
             Long roleId = sc.nextLong();sc.nextLine();
 
             User user = new User();
@@ -88,21 +90,21 @@ public class UserEntityInterface implements FrontendInterface {
             user.setUpdatedAt(LocalDateTime.now());
 
             User created = userService.createUser(user);
-            System.out.println("✅ User created: " + created.getId());
+            log.info("User created: {}" , created.getId());
         } catch (Exception e) {
-            System.out.println("⚠️ Error: " + e.getMessage());
+            log.error("Error: {}" , e.getMessage());
         }
     }
 
     private void listUsers() {
         if (!authService.hasPermission(Action.R, Entity.USER)) {
-            System.out.println("❌ You don't have permission to view users.");
+            log.info("You don't have permission to view users.");
             return;
         }
 
         List<User> users = userService.getAllUsers();
         if (users.isEmpty()) {
-            System.out.println("⚠️ No users found.");
+            System.out.println("No users found.");
         } else {
             System.out.println("\n--- Users ---");
             users.forEach(System.out::println);
@@ -111,7 +113,7 @@ public class UserEntityInterface implements FrontendInterface {
 
     private void viewUser() {
         if (!authService.hasPermission(Action.R, Entity.USER)) {
-            System.out.println("❌ You don't have permission to view users.");
+            log.info("You don't have permission to view users.");
             return;
         }
 
@@ -122,13 +124,13 @@ public class UserEntityInterface implements FrontendInterface {
         Optional<User> user = userService.getUserById(id);
         user.ifPresentOrElse(
                 System.out::println,
-                () -> System.out.println("⚠️ User not found with ID " + id)
+                () -> log.info("⚠️ User not found with ID " + id)
         );
     }
 
     private void updateUser() {
         if (!authService.hasPermission(Action.U, Entity.USER)) {
-            System.out.println("❌ You don't have permission to update users.");
+            log.info("You don't have permission to update users.");
             return;
         }
 
@@ -139,7 +141,7 @@ public class UserEntityInterface implements FrontendInterface {
         try {
             Optional<User> existing = userService.getUserById(id);
             if (existing.isEmpty()) {
-                System.out.println("⚠️ User not found.");
+                log.info("User not found.");
                 return;
             }
 
@@ -155,15 +157,15 @@ public class UserEntityInterface implements FrontendInterface {
 
             user.setUpdatedAt(LocalDateTime.now());
             userService.updateUser(id, user);
-            System.out.println("✅ User updated.");
+            log.info("User updated.");
         } catch (Exception e) {
-            System.out.println("⚠️ Error: " + e.getMessage());
+            log.error("Error: {}" , e.getMessage());
         }
     }
 
     private void deleteUser() {
         if (!authService.hasPermission(Action.D, Entity.USER)) {
-            System.out.println("❌ You don't have permission to delete users.");
+            log.info("You don't have permission to delete users.");
             return;
         }
 
@@ -173,15 +175,15 @@ public class UserEntityInterface implements FrontendInterface {
 
         try {
             userService.deleteUser(id);
-            System.out.println("✅ User deleted.");
+            log.info("User {} deleted.",id);
         } catch (Exception e) {
-            System.out.println("⚠️ Error: " + e.getMessage());
+            log.info("Error: {}", e.getMessage());
         }
     }
 
     private void assignRole() {
         if (!authService.hasPermission(Action.U, Entity.USER)) {
-            System.out.println("❌ You don't have permission to assign roles.");
+            log.info("You don't have permission to assign roles.");
             return;
         }
 
@@ -195,9 +197,9 @@ public class UserEntityInterface implements FrontendInterface {
 
         try {
             userService.assignRole(userId, roleId);
-            System.out.println("✅ Role assigned.");
+            log.info("Role {} assigned to {}",roleId,userId);
         } catch (Exception e) {
-            System.out.println("⚠️ Error: " + e.getMessage());
+            log.error("Error: {} ",e.getMessage());
         }
     }
 }

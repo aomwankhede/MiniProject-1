@@ -1,5 +1,6 @@
 package tech.zeta.application.repositories;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.models.Employee;
 import tech.zeta.application.utils.DBUtils;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class EmployeeRepository {
 
     // Save employee
@@ -33,7 +35,7 @@ public class EmployeeRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in EmployeeRepository save() {}",e.getMessage());
         }
     }
 
@@ -53,7 +55,7 @@ public class EmployeeRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in EmployeeRepository findById() {}",e.getMessage());
         }
         return Optional.empty();
     }
@@ -72,7 +74,7 @@ public class EmployeeRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in EmployeeRepository findAll() {}",e.getMessage());
         }
         return employees;
     }
@@ -94,7 +96,7 @@ public class EmployeeRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in EmployeeRepository update() {}",e.getMessage());
         }
     }
 
@@ -109,7 +111,7 @@ public class EmployeeRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in EmployeeRepository delete() {}",e.getMessage());
         }
     }
 

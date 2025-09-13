@@ -1,5 +1,6 @@
 package tech.zeta.application.frontend;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.enums.Action;
 import tech.zeta.application.enums.Entity;
 import tech.zeta.application.enums.PaymentDirection;
@@ -15,6 +16,7 @@ import tech.zeta.application.services.VendorPaymentService;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
+@Slf4j
 public class PaymentEntityInterface implements FrontendInterface {
 
     private final ClientPaymentService clientPaymentService = ClientPaymentService.getInstance();
@@ -61,7 +63,7 @@ public class PaymentEntityInterface implements FrontendInterface {
 
     private void createClientPayment() {
         if(!authService.hasPermission(Action.C, Entity.CLIENT_PAYMENT)){
-            System.out.println("❌ You don't have permission to create client payments.");
+            log.info("You don't have permission to create client payments.");
             return;
         }
         System.out.print("Enter client ID: ");
@@ -78,12 +80,12 @@ public class PaymentEntityInterface implements FrontendInterface {
         payment.setUpdatedAt(LocalDateTime.now());
 
         clientPaymentService.createClientPayment(payment);
-        System.out.println("✅ Client payment created successfully.");
+        log.info("Client payment created successfully.");
     }
 
     private void createSalaryPayment() {
         if(!authService.hasPermission(Action.C, Entity.SALARY_PAYMENT)){
-            System.out.println("❌ You don't have permission to create salary payments.");
+            log.info("You don't have permission to create salary payments.");
             return;
         }
         System.out.print("Enter employee ID: ");
@@ -100,12 +102,12 @@ public class PaymentEntityInterface implements FrontendInterface {
         payment.setUpdatedAt(LocalDateTime.now());
 
         salaryPaymentService.createSalaryPayment(payment);
-        System.out.println("✅ Salary payment created successfully.");
+        log.info("Salary payment created successfully.");
     }
 
     private void createVendorPayment() {
         if(!authService.hasPermission(Action.C, Entity.VENDOR_PAYMENT)){
-            System.out.println("❌ You don't have permission to create vendor payments.");
+            log.info("You don't have permission to create vendor payments.");
             return;
         }
         System.out.print("Enter vendor ID: ");
@@ -122,12 +124,12 @@ public class PaymentEntityInterface implements FrontendInterface {
         payment.setUpdatedAt(LocalDateTime.now());
 
         vendorPaymentService.createVendorPayment(payment);
-        System.out.println("✅ Vendor payment created successfully.");
+        log.info("Vendor payment created successfully.");
     }
 
     private void markPaymentCompleted() {
         if(!authService.hasPermission(Action.U, Entity.CLIENT_PAYMENT)){
-            System.out.println("❌ You don't have permission to update payments.");
+            log.info("You don't have permission to update payments.");
             return;
         }
         System.out.print("Enter Payment Type (client/salary/vendor): ");
@@ -141,12 +143,12 @@ public class PaymentEntityInterface implements FrontendInterface {
             case "vendor" -> vendorPaymentService.markPaymentAsCompleted(id);
             default -> System.out.println("Invalid type");
         }
-        System.out.println("✅ Payment marked as completed.");
+        log.info("Payment marked as completed.");
     }
 
     private void markPaymentFailed() {
         if(!authService.hasPermission(Action.U, Entity.CLIENT_PAYMENT)){
-            System.out.println("❌ You don't have permission to update payments.");
+            log.info("You don't have permission to update payments.");
             return;
         }
         System.out.print("Enter Payment Type (client/salary/vendor): ");
@@ -160,12 +162,12 @@ public class PaymentEntityInterface implements FrontendInterface {
             case "vendor" -> vendorPaymentService.markPaymentAsFailed(id);
             default -> System.out.println("Invalid type");
         }
-        System.out.println("❌ Payment marked as failed.");
+        log.info("Payment marked as failed.");
     }
 
     private void deletePayment() {
         if(!authService.hasPermission(Action.D, Entity.CLIENT_PAYMENT)){
-            System.out.println("❌ You don't have permission to delete payments.");
+            log.info("You don't have permission to delete payments.");
             return;
         }
         System.out.print("Enter Payment Type (client/salary/vendor): ");
@@ -179,6 +181,6 @@ public class PaymentEntityInterface implements FrontendInterface {
             case "vendor" -> vendorPaymentService.deleteVendorPayment(id);
             default -> System.out.println("Invalid type");
         }
-        System.out.println("🗑 Payment deleted successfully.");
+        log.info("Payment deleted successfully.");
     }
 }

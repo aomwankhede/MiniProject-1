@@ -1,5 +1,6 @@
 package tech.zeta.application.repositories;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.models.Vendor;
 import tech.zeta.application.utils.DBUtils;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class VendorRepository {
 
     // Insert new vendor
@@ -33,7 +35,7 @@ public class VendorRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorRepository save() {}",e.getMessage());
         }
     }
 
@@ -53,7 +55,7 @@ public class VendorRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorRepository findById() {}",e.getMessage());
         }
         return Optional.empty();
     }
@@ -72,7 +74,7 @@ public class VendorRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorRepository findAll() {}",e.getMessage());
         }
         return vendors;
     }
@@ -94,7 +96,7 @@ public class VendorRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorRepository update() {}",e.getMessage());
         }
     }
 
@@ -109,7 +111,7 @@ public class VendorRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorRepository delete() {}",e.getMessage());
         }
     }
 

@@ -1,5 +1,6 @@
 package tech.zeta.application.frontend;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.enums.Action;
 import tech.zeta.application.enums.Entity;
 import tech.zeta.application.models.Client;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+@Slf4j
 public class PartyEntityInterface implements FrontendInterface {
 
     private final AuthService authService;
@@ -70,13 +72,12 @@ public class PartyEntityInterface implements FrontendInterface {
                     System.out.println("Exiting Payment Management...");
                     return;
                 }
-                default -> System.out.println("Invalid choice, try again.");
+                default -> log.info("Invalid choice, try again.");
             }
         }
     }
 
 
-    // ------------------ CLIENT ------------------
     public void createClient() {
         if (authService.isAuthenticated() && authService.hasPermission(Action.C, Entity.CLIENT)) {
             System.out.print("Enter Client Name: ");
@@ -97,7 +98,7 @@ public class PartyEntityInterface implements FrontendInterface {
             client.setCompany(company);
             client.setContractId(contractId);
             clientService.createClient(client);
-            System.out.println("✅ Client created successfully!");
+            log.info("Client {} created successfully!",name);
         } else {
             throw new SecurityException("Not authorized to create client");
         }
@@ -110,7 +111,7 @@ public class PartyEntityInterface implements FrontendInterface {
             Optional<Client> client = clientService.getClientById(id);
             client.ifPresentOrElse(
                     System.out::println,
-                    () -> System.out.println("❌ Client not found.")
+                    () -> log.info("Client not found")
             );
         } else {
             throw new SecurityException("Not authorized to read client");
@@ -150,7 +151,7 @@ public class PartyEntityInterface implements FrontendInterface {
             updated.setCompany(company);
             updated.setContractId(contractId);
             clientService.updateClient(id, updated);
-            System.out.println("✅ Client updated successfully!");
+            log.info("Client {} updated successfully!",name);
         } else {
             throw new SecurityException("Not authorized to update client");
         }
@@ -161,13 +162,12 @@ public class PartyEntityInterface implements FrontendInterface {
             System.out.print("Enter Client ID to delete: ");
             Long id = Long.parseLong(scanner.nextLine());
             clientService.deleteClient(id);
-            System.out.println("✅ Client deleted successfully!");
+            log.info("Client with id {} deleted successfully!",id);
         } else {
             throw new SecurityException("Not authorized to delete client");
         }
     }
 
-    // ------------------ EMPLOYEE ------------------
     public void createEmployee() {
         if (authService.isAuthenticated() && authService.hasPermission(Action.C, Entity.EMPLOYEE)) {
             System.out.print("Enter Employee Name: ");
@@ -189,7 +189,7 @@ public class PartyEntityInterface implements FrontendInterface {
             employee.setPanNumber(pan);
 
             employeeService.createEmployee(employee);
-            System.out.println("✅ Employee created successfully!");
+            log.info("Employee {} created successfully!",name);
         } else {
             throw new SecurityException("Not authorized to create employee");
         }
@@ -202,7 +202,7 @@ public class PartyEntityInterface implements FrontendInterface {
             Optional<Employee> emp = employeeService.getEmployeeById(id);
             emp.ifPresentOrElse(
                     System.out::println,
-                    () -> System.out.println("❌ Employee not found.")
+                    () -> log.info("Employee not found.")
             );
         } else {
             throw new SecurityException("Not authorized to read employee");
@@ -243,7 +243,7 @@ public class PartyEntityInterface implements FrontendInterface {
             updated.setPanNumber(pan);
 
             employeeService.updateEmployee(id, updated);
-            System.out.println("✅ Employee updated successfully!");
+            log.info("Employee {} updated successfully!",name);
         } else {
             throw new SecurityException("Not authorized to update employee");
         }
@@ -254,13 +254,12 @@ public class PartyEntityInterface implements FrontendInterface {
             System.out.print("Enter Employee ID to delete: ");
             Long id = Long.parseLong(scanner.nextLine());
             employeeService.deleteEmployee(id);
-            System.out.println("✅ Employee deleted successfully!");
+            log.info("Employee with id {} deleted successfully!",id);
         } else {
             throw new SecurityException("Not authorized to delete employee");
         }
     }
 
-    // ------------------ VENDOR ------------------
     public void createVendor() {
         if (authService.isAuthenticated() && authService.hasPermission(Action.C, Entity.VENDOR)) {
             System.out.print("Enter Vendor Name: ");
@@ -282,7 +281,7 @@ public class PartyEntityInterface implements FrontendInterface {
             vendor.setInvoiceTerms(terms);
 
             vendorService.createVendor(vendor);
-            System.out.println("✅ Vendor created successfully!");
+            log.info("Vendor {} created successfully!",name);
         } else {
             throw new SecurityException("Not authorized to create vendor");
         }
@@ -295,7 +294,7 @@ public class PartyEntityInterface implements FrontendInterface {
             Optional<Vendor> vendor = vendorService.getVendorById(id);
             vendor.ifPresentOrElse(
                     System.out::println,
-                    () -> System.out.println("❌ Vendor not found.")
+                    () -> log.info("Vendor not found.")
             );
         } else {
             throw new SecurityException("Not authorized to read vendor");
@@ -337,7 +336,7 @@ public class PartyEntityInterface implements FrontendInterface {
 
             vendorService.updateVendor(id, updated);
 
-            System.out.println("✅ Vendor updated successfully!");
+            log.info("Vendor {} updated successfully!",name);
         } else {
             throw new SecurityException("Not authorized to update vendor");
         }
@@ -348,7 +347,7 @@ public class PartyEntityInterface implements FrontendInterface {
             System.out.print("Enter Vendor ID to delete: ");
             Long id = Long.parseLong(scanner.nextLine());
             vendorService.deleteVendor(id);
-            System.out.println("✅ Vendor deleted successfully!");
+            log.info("Vendor with id {} deleted successfully!",id);
         } else {
             throw new SecurityException("Not authorized to delete vendor");
         }

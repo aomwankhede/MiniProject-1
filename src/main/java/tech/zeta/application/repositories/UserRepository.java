@@ -1,5 +1,6 @@
 package tech.zeta.application.repositories;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.models.User;
 import tech.zeta.application.utils.DBUtils;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class UserRepository {
 
     // Create new user
@@ -39,7 +41,7 @@ public class UserRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in UserRepository save() {}",e.getMessage());
         }
     }
 
@@ -59,7 +61,7 @@ public class UserRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in UserRepository findById() {}",e.getMessage());
         }
         return Optional.empty();
     }
@@ -78,7 +80,7 @@ public class UserRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in UserRepository findAll() {}",e.getMessage());
         }
         return users;
     }
@@ -104,7 +106,7 @@ public class UserRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in UserRepository update() {}",e.getMessage());
         }
     }
 
@@ -119,7 +121,7 @@ public class UserRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in UserRepository delete() {}",e.getMessage());
         }
     }
 

@@ -3,7 +3,6 @@ package tech.zeta.application.services;
 import tech.zeta.application.enums.PaymentDirection;
 import tech.zeta.application.enums.PaymentStatus;
 import tech.zeta.application.models.ClientPayment;
-import tech.zeta.application.models.SalaryPayment;
 import tech.zeta.application.repositories.ClientPaymentRepository;
 
 import java.time.LocalDateTime;
@@ -23,6 +22,7 @@ public class ClientPaymentService {
         }
         return instance;
     }
+
     // Create new client payment
     public ClientPayment createClientPayment(ClientPayment payment) {
         if (payment.getAmount() == null || payment.getAmount() <= 0) {
@@ -87,9 +87,6 @@ public class ClientPaymentService {
     }
 
 
-    /**
-     * Mark a SalaryPayment as completed
-     */
     public void markPaymentAsCompleted(Long id) {
         Optional<ClientPayment> clientPayment = clientPaymentRepository.findById(id);
         if (clientPayment.isPresent()) {
@@ -102,9 +99,6 @@ public class ClientPaymentService {
         }
     }
 
-    /**
-     * Mark a SalaryPayment as failed
-     */
     public void markPaymentAsFailed(Long id) {
         Optional<ClientPayment> optionalPayment = clientPaymentRepository.findById(id);
         if (optionalPayment.isPresent()) {

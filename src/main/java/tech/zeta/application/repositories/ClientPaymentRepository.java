@@ -1,5 +1,6 @@
 package tech.zeta.application.repositories;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.enums.PaymentStatus;
 import tech.zeta.application.models.ClientPayment;
 import tech.zeta.application.enums.PaymentDirection;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class ClientPaymentRepository {
 
     // Save payment
@@ -37,7 +39,7 @@ public class ClientPaymentRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientPayment save() {}",e.getMessage());
         }
     }
 
@@ -56,12 +58,11 @@ public class ClientPaymentRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientPayment findById() {}",e.getMessage());
         }
         return Optional.empty();
     }
 
-    // Find all
     public List<ClientPayment> findAll() {
         List<ClientPayment> payments = new ArrayList<>();
         String sql = "SELECT * FROM client_payment";
@@ -75,12 +76,11 @@ public class ClientPaymentRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientPayment findAll() {}",e.getMessage());
         }
         return payments;
     }
 
-    // Update payment
     public void update(Long id,ClientPayment payment) {
         String sql = "UPDATE client_payment SET amount = ?, direction = ?, status = ?, updated_at = ?, client_id = ? WHERE id = ?";
 
@@ -97,11 +97,10 @@ public class ClientPaymentRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientPayment update() {}",e.getMessage());
         }
     }
 
-    // Delete payment
     public void delete(Long id) {
         String sql = "DELETE FROM client_payment WHERE id = ?";
 
@@ -112,11 +111,10 @@ public class ClientPaymentRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in ClientPayment delete() {}",e.getMessage());
         }
     }
 
-    // --- Helper ---
     private ClientPayment mapRowToClientPayment(ResultSet rs) throws SQLException {
         ClientPayment payment = new ClientPayment();
         payment.setId(rs.getLong("id"));

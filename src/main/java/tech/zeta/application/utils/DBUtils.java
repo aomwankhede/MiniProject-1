@@ -1,5 +1,7 @@
 package tech.zeta.application.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -7,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+@Slf4j
 public class DBUtils {
     public static Connection getConnection() {
         Properties config=  new Properties();
@@ -22,8 +25,9 @@ public class DBUtils {
 
             Class.forName(db_class_name);
             connection = DriverManager.getConnection(db_database_url + "/" + db_database_name,db_username,db_password);
+            log.info("Database connected successfully");
         } catch (IOException | ClassNotFoundException | SQLException e) {
-            System.err.println(e.getMessage());
+            log.error("Database Connection Error : {}" , e.getMessage());
             return null;
         }
         return connection;

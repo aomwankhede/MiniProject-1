@@ -1,5 +1,6 @@
 package tech.zeta.application.repositories;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.zeta.application.enums.PaymentDirection;
 import tech.zeta.application.enums.PaymentStatus;
 import tech.zeta.application.models.VendorPayment;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class VendorPaymentRepository {
 
     // Save new vendor payment
@@ -37,7 +39,7 @@ public class VendorPaymentRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorPaymentRepository save() {}",e.getMessage());
         }
     }
 
@@ -57,7 +59,7 @@ public class VendorPaymentRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorPaymentRepository findById() {}",e.getMessage());
         }
         return Optional.empty();
     }
@@ -76,7 +78,7 @@ public class VendorPaymentRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorPaymentRepository findAll() {}",e.getMessage());
         }
         return payments;
     }
@@ -100,7 +102,7 @@ public class VendorPaymentRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorPaymentRepository update() {}",e.getMessage());
         }
     }
 
@@ -115,7 +117,7 @@ public class VendorPaymentRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Exception in VendorPaymentRepository delete() {}",e.getMessage());
         }
     }
 

@@ -25,7 +25,6 @@ public class DBUtils {
 
             Class.forName(db_class_name);
             connection = DriverManager.getConnection(db_database_url + "/" + db_database_name,db_username,db_password);
-            log.info("Database connected successfully");
         } catch (IOException | ClassNotFoundException | SQLException e) {
             log.error("Database Connection Error : {}" , e.getMessage());
             return null;

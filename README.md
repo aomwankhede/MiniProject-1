@@ -124,12 +124,41 @@ mvn package
 java -jar filename.jar
 ```
 
-## 7. You can directly run the main class no need of mvn
-### Option 1: Using JAR
+## 7. You can directly run the main class no need of maven
+###  Run Main Class Directly
 ```bash
-java -jar target/your-jar-file.jar
+You can also run the main class from your IDE.
 ```
-### Option 2: Run Main Class Directly
+## 8. Note while using maven , you may need to add the below plugin and also specify the main class of the project
 ```bash
-You can also run the main class from your IDE without packaging.
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.11.0</version>
+    <configuration>
+        <source>17</source> <!-- or your Java version -->
+        <target>17</target>
+        <annotationProcessorPaths>
+            <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.34</version> <! -- make sure version is same -->
+            </path>
+        </annotationProcessorPaths>
+    </configuration>
+</plugin>
+```
+```bash
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>3.3.0</version> 
+    <configuration>
+        <archive>
+            <manifest>
+                <mainClass>tech.zeta.Main</mainClass>
+            </manifest>
+        </archive>
+    </configuration>
+</plugin>
 ```
